@@ -1,7 +1,6 @@
 'use client';
 
 import { type PointerEvent, useRef, useState } from 'react';
-import Image from 'next/image';
 import { QUIPS } from './lines';
 import { type RequestedQuip, TypingLines } from './typing-lines';
 
@@ -73,12 +72,12 @@ export function InteractiveHero() {
             AVATAR_01
           </span>
           <span className="portrait-art" aria-hidden="true">
-            <Image
+            {/* oxlint-disable-next-line next/no-img-element */}
+            <img
               src="/nyatori-avatar.png"
               alt=""
               width="1024"
               height="1024"
-              priority
               draggable={false}
             />
             <span className="portrait-highlight" />
