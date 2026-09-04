@@ -1,5 +1,6 @@
 import { sites } from '@openai/sites-vite-plugin';
 import tailwindcss from '@tailwindcss/postcss';
+import { execFileSync } from 'node:child_process';
 import vinext from 'vinext';
 import { defineConfig } from 'vite';
 import hostingConfig from './.openai/hosting.json';
@@ -8,6 +9,34 @@ const SITE_CREATOR_PLACEHOLDER_DATABASE_ID =
   '00000000-0000-4000-8000-000000000000';
 
 const { d1, r2 } = hostingConfig;
+
+function getBuildDate() {
+  return new Intl.DateTimeFormat('sv-SE', {
+    timeZone: 'Asia/Shanghai',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  })
+    .format(new Date())
+    .replaceAll('-', '.');
+}
+
+function getBuildRevision() {
+  try {
+    const revision = execFileSync('git', ['rev-parse', '--short=7', 'HEAD'], {
+      encoding: 'utf8',
+    })
+      .trim()
+      .toUpperCase();
+    const workingTree = execFileSync('git', ['status', '--porcelain'], {
+      encoding: 'utf8',
+    }).trim();
+
+    return `${revision}${workingTree ? '+' : ''}`;
+  } catch {
+    return 'LOCAL';
+  }
+}
 
 // macOS Seatbelt blocks FSEvents, so Codex previews need polling for HMR.
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === 'seatbelt';
@@ -46,6 +75,10 @@ export default defineConfig(async () => {
 
   return {
     css: { postcss: { plugins: [tailwindcss()] } },
+    define: {
+      __BUILD_DATE__: JSON.stringify(getBuildDate()),
+      __BUILD_REVISION__: JSON.stringify(getBuildRevision()),
+    },
     server: isCodexSeatbeltSandbox
       ? { watch: { useFsEvents: false, usePolling: true } }
       : undefined,

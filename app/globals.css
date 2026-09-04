@@ -65,7 +65,11 @@ a {
   inset: 0;
   pointer-events: none;
   content: '';
-  background: linear-gradient(115deg, transparent 0 56%, rgb(56 232 221 / 0.035) 56% 100%);
+  background: linear-gradient(
+    115deg,
+    transparent 0 56%,
+    rgb(56 232 221 / 0.035) 56% 100%
+  );
 }
 
 .site-header,
@@ -171,12 +175,17 @@ h1 {
 
 .typewriter {
   display: flex;
+  min-width: 0;
   align-items: center;
   margin: 0;
   color: var(--cyan);
   font-size: 2rem;
   font-weight: 500;
   line-height: 1.35;
+}
+
+.typewriter > span:first-child {
+  overflow-wrap: anywhere;
 }
 
 .prompt {
@@ -199,15 +208,30 @@ h1 {
 }
 
 .portrait-frame {
+  --avatar-x: 0px;
+  --avatar-y: 0px;
+
   position: relative;
   width: min(100%, 560px);
   aspect-ratio: 1;
+  padding: 0;
+  overflow: hidden;
   border: 1px solid var(--line);
+  appearance: none;
   background:
-    linear-gradient(90deg, rgb(56 232 221 / 0.08) 1px, transparent 1px) 0 0 / 26px 100%,
+    linear-gradient(90deg, rgb(56 232 221 / 0.08) 1px, transparent 1px) 0 0 /
+      26px 100%,
     linear-gradient(rgb(56 232 221 / 0.08) 1px, transparent 1px) 0 0 / 100% 26px,
     var(--surface);
   box-shadow: 24px 24px 0 rgb(56 232 221 / 0.05);
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: inherit;
+  touch-action: manipulation;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .portrait-frame::before,
@@ -234,6 +258,15 @@ h1 {
   border-bottom: 2px solid var(--cyan);
 }
 
+.portrait-art {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform: translate3d(var(--avatar-x), var(--avatar-y), 0);
+  transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
 .portrait img {
   display: block;
   width: 100%;
@@ -241,6 +274,42 @@ h1 {
   object-fit: contain;
   image-rendering: pixelated;
   filter: drop-shadow(0 24px 32px rgb(0 0 0 / 0.42));
+}
+
+.portrait-highlight {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: url('/nyatori-avatar.png') center / contain no-repeat;
+  filter: brightness(1.18) saturate(1.35)
+    drop-shadow(0 0 10px rgb(56 232 221 / 0.62));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+  -webkit-mask-image:
+    radial-gradient(circle at 45% 44%, #000 0 4%, transparent 10%),
+    radial-gradient(ellipse at 25% 68%, #000 0 13%, transparent 25%);
+  mask-image:
+    radial-gradient(circle at 45% 44%, #000 0 4%, transparent 10%),
+    radial-gradient(ellipse at 25% 68%, #000 0 13%, transparent 25%);
+}
+
+.portrait-frame:is(:hover, :focus-visible) {
+  border-color: rgb(56 232 221 / 0.56);
+  box-shadow: 24px 24px 0 rgb(56 232 221 / 0.08);
+}
+
+.portrait-frame:is(:hover, :focus-visible) .portrait-highlight {
+  opacity: 0.72;
+}
+
+.portrait-frame:active .portrait-art {
+  transform: translate3d(var(--avatar-x), var(--avatar-y), 0) scale(0.995);
+}
+
+.portrait-frame:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 5px;
 }
 
 .corner-label {
@@ -292,6 +361,14 @@ h1 {
   padding-block: 12px;
   text-underline-offset: 4px;
   transition: color 160ms ease;
+}
+
+.build-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--quiet);
+  font-variant-numeric: tabular-nums;
 }
 
 .site-footer a:hover,
@@ -372,13 +449,13 @@ h1 {
   }
 
   .role-row {
-    min-height: 3rem;
+    min-height: 3.5rem;
     margin-top: 30px;
   }
 
   .typewriter,
   .prompt {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
   }
 
   .portrait-frame {
@@ -391,6 +468,16 @@ h1 {
     gap: 2px;
     padding-block: 14px;
   }
+
+  .build-info {
+    gap: 8px;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .portrait-art {
+    transform: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -400,5 +487,15 @@ h1 {
 
   .cursor {
     animation: none;
+  }
+
+  .portrait-art {
+    transform: none;
+    transition: none;
+  }
+
+  .portrait-frame,
+  .portrait-highlight {
+    transition: none;
   }
 }
