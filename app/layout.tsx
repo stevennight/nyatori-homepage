@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://nyatori.com'),
-  title: 'Nyatori | 程序员',
+  title: 'Nyatori | 一只程序喵',
   description: 'Nyatori 的个人主页。程序员，保持好奇，持续构建。',
 };
 

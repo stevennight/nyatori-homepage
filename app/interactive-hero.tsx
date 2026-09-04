@@ -1,15 +1,36 @@
 'use client';
 
-import { type PointerEvent, useRef, useState } from 'react';
+import { type PointerEvent, useEffect, useRef, useState } from 'react';
 import { QUIPS } from './lines';
+import { pickPageTitle } from './page-titles';
 import { type RequestedQuip, TypingLines } from './typing-lines';
 
 const MAX_AVATAR_SHIFT = 4;
+const LAST_PAGE_TITLE_KEY = 'nyatori:last-page-title';
 
 export function InteractiveHero() {
   const requestId = useRef(0);
   const lastQuipIndex = useRef<number | null>(null);
   const [requestedQuip, setRequestedQuip] = useState<RequestedQuip>(null);
+
+  useEffect(() => {
+    let previousTitle: string | null = null;
+
+    try {
+      previousTitle = window.sessionStorage.getItem(LAST_PAGE_TITLE_KEY);
+    } catch {
+      // The title can still be randomized when storage is unavailable.
+    }
+
+    const nextTitle = pickPageTitle(previousTitle);
+    document.title = `Nyatori | ${nextTitle}`;
+
+    try {
+      window.sessionStorage.setItem(LAST_PAGE_TITLE_KEY, nextTitle);
+    } catch {
+      // Ignore private browsing or storage restrictions.
+    }
+  }, []);
 
   function requestRandomQuip() {
     let nextIndex = Math.floor(Math.random() * QUIPS.length);
