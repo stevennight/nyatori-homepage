@@ -1,7 +1,7 @@
 'use client';
 
 import { type PointerEvent, useEffect, useRef, useState } from 'react';
-import { QUIPS } from './lines';
+import { pickRandomQuipIndex, QUIPS } from './lines';
 import { pickPageTitle } from './page-titles';
 import { type RequestedQuip, TypingLines } from './typing-lines';
 
@@ -33,11 +33,7 @@ export function InteractiveHero() {
   }, []);
 
   function requestRandomQuip() {
-    let nextIndex = Math.floor(Math.random() * QUIPS.length);
-
-    if (lastQuipIndex.current === nextIndex) {
-      nextIndex = (nextIndex + 1) % QUIPS.length;
-    }
+    const nextIndex = pickRandomQuipIndex(lastQuipIndex.current);
 
     lastQuipIndex.current = nextIndex;
     requestId.current += 1;

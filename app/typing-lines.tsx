@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useSyncExternalStore } from 'react';
-import { getTimeGreeting, QUIPS } from './lines';
+import { getTimeGreeting, pickRandomQuipIndex, QUIPS } from './lines';
 
 export type RequestedQuip = {
   id: number;
@@ -72,9 +72,9 @@ export function TypingLines({
 
         if (phase === 'greeting' || phase === 'requested') {
           setPhase('rotation');
-          setLineIndex(0);
+          setLineIndex(pickRandomQuipIndex());
         } else {
-          setLineIndex((index) => (index + 1) % QUIPS.length);
+          setLineIndex((index) => pickRandomQuipIndex(index));
         }
 
         return;

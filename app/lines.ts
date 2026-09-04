@@ -101,6 +101,16 @@ export const QUIPS = [
   '下一个想法正在加载',
 ] as const;
 
+export function pickRandomQuipIndex(previousIndex: number | null = null) {
+  let nextIndex = Math.floor(Math.random() * QUIPS.length);
+
+  if (nextIndex === previousIndex) {
+    nextIndex = (nextIndex + 1) % QUIPS.length;
+  }
+
+  return nextIndex;
+}
+
 export function getTimeGreeting(date: Date) {
   const hour = Number(
     new Intl.DateTimeFormat('en-US', {
