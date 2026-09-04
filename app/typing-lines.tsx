@@ -3,10 +3,16 @@
 import { useEffect, useState } from 'react';
 
 const lines = [
-  '程序员',
-  '把想法编译成现实',
-  '偶尔写诗，通常写 Bug',
-  '代码会说话，我负责翻译',
+  '本地一切正常',
+  'Bug 的战略伙伴',
+  '靠咖啡因编译',
+  '能跑就先别动',
+  '需求翻译成报错',
+  '重启解决一半',
+  '缓存解决另一半',
+  '正在撤销上次撤销',
+  '全栈，但不全会',
+  'Hello, World 常驻嘉宾',
 ];
 
 export function TypingLines() {

@@ -25,7 +25,6 @@ export default function Home() {
             <span className="prompt" aria-hidden="true">&gt;</span>
             <TypingLines />
           </div>
-          <p className="statement">把想法写进现实。</p>
         </section>
 
         <aside className="portrait" aria-label="Nyatori 像素头像">
