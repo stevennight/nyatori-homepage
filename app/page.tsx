@@ -1,3 +1,5 @@
+import { TypingLines } from './typing-lines';
+
 export default function Home() {
   return (
     <div className="site-shell">
@@ -21,7 +23,7 @@ export default function Home() {
           <h1 id="page-title">Nyatori</h1>
           <div className="role-row">
             <span className="prompt" aria-hidden="true">&gt;</span>
-            <p>程序员<span className="cursor" aria-hidden="true" /></p>
+            <TypingLines />
           </div>
           <p className="statement">把想法写进现实。</p>
         </section>
@@ -40,9 +42,9 @@ export default function Home() {
         </aside>
 
         <div className="system-line" aria-hidden="true">
-          <span>BUILDING</span>
+          <span>HELLO, WORLD.</span>
           <span className="system-rule" />
-          <span>FROM SHENZHEN</span>
+          <span>NYATORI.COM</span>
         </div>
       </main>
 
