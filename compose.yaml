@@ -1,10 +1,8 @@
 services:
   homepage:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: nyatori-homepage:latest
+    image: ghcr.io/stevennight/nyatori-homepage:${NYATORI_IMAGE_TAG:-latest}
+    pull_policy: always
     container_name: nyatori-homepage
     restart: unless-stopped
     ports:
-      - "127.0.0.1:${NYATORI_PORT:-8080}:80"
+      - "127.0.0.1:${NYATORI_PORT:?set NYATORI_PORT in .env}:80"
