@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://nyatori.small7nogp.chatgpt.site'),
+  metadataBase: new URL('https://nyatori.com'),
   title: 'Nyatori | 程序员',
   description: 'Nyatori 的个人主页。程序员，保持好奇，持续构建。',
 };
